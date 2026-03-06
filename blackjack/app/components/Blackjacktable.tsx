@@ -1,8 +1,8 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {Card} from "../../../src/types/cards";
-import {newShuffledDeck, drawCards, CARD_BACK_IMAGE} from "../../../src/types/api/deckApi";
+import {Card} from "../types/cards";
+import {newShuffledDeck, drawCards, CARD_BACK_IMAGE} from "../types/api/deckApi";
 
 export default function BlackjackTable() {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +43,7 @@ export default function BlackjackTable() {
             <div className="flex gap-3">
               {dealerCards.map((card, i) => (
                 <img
-                  key={card.code}
+                  key={`${card.code}-${i}`}
                   src={i === 1 ? CARD_BACK_IMAGE : card.image}
                   alt={i === 1 ? "Hidden card" : `${card.value} of ${card.suit}`}
                   className="w-20 h-28 rounded-md shadow-lg"
@@ -54,9 +54,9 @@ export default function BlackjackTable() {
 
           <div className="flex flex-col items-center gap-3">
             <div className="flex gap-3">
-              {playerCards.map((card) => (
+              {playerCards.map((card, i) => (
                 <img
-                  key={card.code}
+                  key={`${card.code}-${i}`}
                   src={card.image}
                   alt={`${card.value} of ${card.suit}`}
                   className="w-20 h-28 rounded-md shadow-lg"
