@@ -3,6 +3,7 @@
 import {useEffect, useState} from "react";
 import {Card} from "../types/cards";
 import {newShuffledDeck, drawCards, CARD_BACK_IMAGE} from "../types/api/deckApi";
+import {calculateScore} from "./ScoreCalculator";
 
 export default function BlackjackTable() {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +23,9 @@ export default function BlackjackTable() {
   useEffect(() => {
     startGame();
   }, []);
+
+const playerScore = calculateScore(playerCards);
+const dealerScore = calculateScore(dealerCards);
 
   return ( 
   <div className="flex flex-col items-center justify-center gap-8">
@@ -64,6 +68,7 @@ export default function BlackjackTable() {
               ))}
             </div>
             <p className="font-serif text-xs tracking-widest uppercase text-white/40">Player</p>
+            <p className="font-serif text-sm font-bold text-white/60">{playerScore}</p>
           </div>
         </div>
       )}
