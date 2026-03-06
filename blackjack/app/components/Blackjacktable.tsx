@@ -4,14 +4,17 @@ import {useEffect, useState} from "react";
 import {Card} from "../types/cards";
 import {newShuffledDeck, drawCards, CARD_BACK_IMAGE} from "../types/api/deckApi";
 import {calculateScore} from "./ScoreCalculator";
+import {evaluateOutcome, GameOutcome} from "./OutcomeEvaluator";
 
 export default function BlackjackTable() {
   const [isLoading, setIsLoading] = useState(false);
   const [playerCards, setPlayerCards] = useState<Card[]>([]);
   const [dealerCards, setDealerCards] = useState<Card[]>([]);
+  const [outcome, setOutcome] = useState<GameOutcome | null>(null);
 
   async function startGame() {
     setIsLoading(true);
+    setOutcome(null);
     const deck = await newShuffledDeck(6);
     const drawn = await drawCards(deck.deck_id, 4);
     const [p1, d1, p2, d2] = drawn.cards;
@@ -72,7 +75,15 @@ const dealerScore = calculateScore(dealerCards);
           </div>
         </div>
       )}
-
+      {outcome && (
+        <p className="font-serif text-2xl font-bold tracking-widest uppercase text-yellow-400">
+          {outcome === "blackjack" && "Blackjack!"}
+          {outcome === "win" && "You Win!"}
+          {outcome === "lose" && "Dealer Wins"}
+          {outcome === "bust" && "Bust!"}
+          {outcome === "push" && "Push"}
+        </p>
+      )}
       <button
         onClick={startGame}
         disabled={isLoading}
