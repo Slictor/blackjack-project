@@ -1,5 +1,10 @@
 import {Card} from "../types/cards"
 
+export function isBlackjack(cards: Card[]): boolean {
+  if (cards.length !== 2) return false;
+  return calculateScore(cards) === 21;
+}
+
 export function calculateScore(cards: Card[]): number {
   let score = 0;
   let aces = 0;
